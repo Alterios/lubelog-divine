@@ -2,5 +2,16 @@
 bin/
 obj/
 data/
+keys/
+publish/
+build_output.txt
 CarCareTracker.csproj.user
 Properties/launchSettings.json
+*.Gemini
+*.orig
+*.txt
+*.svg
+!README.md
+!SECURITY.md
+!LICENSE
+!docs/*.md
