@@ -9,9 +9,10 @@ namespace CarCareTracker.Controllers
     {
         [TypeFilter(typeof(CollaboratorFilter))]
         [HttpGet]
-        public IActionResult GetInspectionRecordTemplatesByVehicleId(int vehicleId)
+        public IActionResult GetInspectionRecordTemplatesByVehicleId(int vehicleId, bool isPublic = false)
         {
             var result = _inspectionRecordTemplateDataAccess.GetInspectionRecordTemplatesByVehicleId(vehicleId);
+            ViewBag.IsPublic = isPublic;
             return PartialView("Inspection/_InspectionRecordTemplateSelector", result);
         }
         [TypeFilter(typeof(CollaboratorFilter))]

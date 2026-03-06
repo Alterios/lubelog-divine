@@ -4,7 +4,7 @@ namespace CarCareTracker.Controllers
 {
     public class ErrorController : Controller
     {
-        public IActionResult Unauthorized()
+        public new IActionResult Unauthorized()
         {
             if (User.IsInRole("APIAuth"))
             {

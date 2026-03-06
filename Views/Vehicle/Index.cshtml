@@ -273,6 +273,7 @@
         return { 
             vehicleId: @Model.Id, 
             odometerOptional: @Model.OdometerOptional.ToString().ToLower(),
+            inspectionCostOptional: @Model.InspectionCostOptional.ToString().ToLower(),
             hasOdometerAdjustment: @Model.HasOdometerAdjustment.ToString().ToLower(),
             useEngineHours: @Model.UseHours.ToString().ToLower(),
             odometerDifference: decodeHTMLEntities('@Model.OdometerDifference'),

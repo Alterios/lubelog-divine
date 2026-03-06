@@ -281,6 +281,8 @@ namespace CarCareTracker.Models
         public string UseEngineHours { get; set; } = string.Empty;
         [JsonConverter(typeof(FromBoolOptional))]
         public string OdometerOptional { get; set; } = string.Empty;
+        [JsonConverter(typeof(FromBoolOptional))]
+        public string InspectionCostOptional { get; set; } = string.Empty;
         public string Tags { get; set; } = string.Empty;
         public List<ExtraField> ExtraFields { get; set; } = new List<ExtraField>();
     }

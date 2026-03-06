@@ -11,6 +11,28 @@
 function hideInspectionRecordTemplateSelectorModal() {
     $('#inspectionRecordTemplateModal').modal('hide');
 }
+function showPublicInspectionQRCodeSelectorModal() {
+    var vehicleId = GetVehicleId().vehicleId;
+    $.get(`/Vehicle/GetInspectionRecordTemplatesByVehicleId?vehicleId=${vehicleId}&isPublic=true`, function (data) {
+        if (data) {
+            $("#inspectionRecordTemplateModalContent").html(data);
+            $('#inspectionRecordTemplateModal').modal('show');
+            clearModalContentOnHide($('#inspectionRecordTemplateModal'));
+        }
+    });
+}
+function generatePublicInspectionQRCode(templateId) {
+    var vehicleId = GetVehicleId().vehicleId;
+    $.get(`/Public/GetPublicInspectionHash?vehicleId=${vehicleId}&templateId=${templateId}`, function (data) {
+        if (data.success) {
+            hideInspectionRecordTemplateSelectorModal();
+            let urlToRender = `${window.location.origin}${data.url}`;
+            createQRForUrl(urlToRender);
+        } else {
+            errorToast(data.message);
+        }
+    });
+}
 function showAddInspectionRecordTemplateModal() {
     $.get('/Vehicle/GetAddInspectionRecordTemplatePartialView', function (data) {
         if (data) {
@@ -267,11 +289,20 @@ function getAndValidateInspectionRecord() {
     } else {
         $("#inspectionRecordMileage").removeClass("is-invalid");
     }
-    if (inspectionCost.trim() == '' || !isValidMoney(inspectionCost)) {
-        hasError = true;
-        $("#inspectionRecordCost").addClass("is-invalid");
+    if (GetVehicleId().inspectionCostOptional) {
+        if (inspectionCost.trim() != '' && !isValidMoney(inspectionCost)) {
+            hasError = true;
+            $("#inspectionRecordCost").addClass("is-invalid");
+        } else {
+            $("#inspectionRecordCost").removeClass("is-invalid");
+        }
     } else {
-        $("#inspectionRecordCost").removeClass("is-invalid");
+        if (inspectionCost.trim() == '' || !isValidMoney(inspectionCost)) {
+            hasError = true;
+            $("#inspectionRecordCost").addClass("is-invalid");
+        } else {
+            $("#inspectionRecordCost").removeClass("is-invalid");
+        }
     }
     let inspectionRecordData = {
         id: inspectionRecordId,
@@ -319,7 +350,7 @@ function getAndValidateInspectionRecord() {
             });
             fieldData["options"] = fieldOptions;
             //user must select at least one option for radio fields
-            if (fieldType == 'Radio' && fieldOptions.filter(x=>x.isSelected).length == 0) {
+            if (fieldType == 'Radio' && fieldOptions.filter(x => x.isSelected).length == 0) {
                 fieldElem.find('[data-type="fieldOptions"]').find('[data-type="fieldOption"]').addClass('is-invalid');
                 hasError = true;
             } else {
