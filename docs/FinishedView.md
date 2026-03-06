@@ -1,0 +1,51 @@
+# FinishedView
+
+The `Finished.cshtml` view is a simple success page shown after a public inspection has been successfully submitted.
+
+## Related Files
+
+- [[PublicController]]
+- [[InspectionView]]
+
+## Implementation Code
+
+```razor
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Inspection Completed";
+}
+<style>
+    .success-card {
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-top: 50px;
+        border: none;
+        text-align: center;
+        padding: 40px;
+    }
+    .success-icon {
+        font-size: 5rem;
+        color: #198754;
+        margin-bottom: 20px;
+    }
+    .success-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .success-text {
+        color: #6c757d;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="card success-card">
+    <div class="success-icon">
+        <i class="bi bi-check-circle-fill"></i>
+    </div>
+    <h2 class="success-title">Inspection Submitted!</h2>
+    <p class="success-text">The inspection report has been successfully recorded in LubeLogger. Thank you for keeping the fleet safe.</p>
+    <div class="d-grid gap-2">
+         <button type="button" class="btn btn-primary btn-lg" onclick="window.close();">Close Window</button>
+    </div>
+</div>
+```
