@@ -295,6 +295,7 @@ namespace CarCareTracker.Controllers
                     VehicleIdentifier = input.Identifier,
                     UseHours = string.IsNullOrWhiteSpace(input.UseEngineHours) ? false : bool.Parse(input.UseEngineHours),
                     OdometerOptional = string.IsNullOrWhiteSpace(input.OdometerOptional) ? false : bool.Parse(input.OdometerOptional),
+                    InspectionCostOptional = string.IsNullOrWhiteSpace(input.InspectionCostOptional) ? false : bool.Parse(input.InspectionCostOptional),
                     ExtraFields = input.ExtraFields,
                     Tags = string.IsNullOrWhiteSpace(input.Tags) ? new List<string>() : input.Tags.Split(' ').Distinct().ToList()
                 };
@@ -378,6 +379,7 @@ namespace CarCareTracker.Controllers
                     existingVehicle.VehicleIdentifier = input.Identifier;
                     existingVehicle.UseHours = string.IsNullOrWhiteSpace(input.UseEngineHours) ? false : bool.Parse(input.UseEngineHours);
                     existingVehicle.OdometerOptional = string.IsNullOrWhiteSpace(input.OdometerOptional) ? false : bool.Parse(input.OdometerOptional);
+                    existingVehicle.InspectionCostOptional = string.IsNullOrWhiteSpace(input.InspectionCostOptional) ? false : bool.Parse(input.InspectionCostOptional);
                     existingVehicle.ExtraFields = input.ExtraFields;
                     existingVehicle.Tags = string.IsNullOrWhiteSpace(input.Tags) ? new List<string>() : input.Tags.Split(' ').Distinct().ToList();
                     switch (input.FuelType)

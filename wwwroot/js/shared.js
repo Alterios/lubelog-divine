@@ -95,6 +95,7 @@ function saveVehicle(isEdit) {
     var vehicleIsDiesel = $("#inputFuelType").val() == 'Diesel';
     var vehicleUseHours = $("#inputUseHours").is(":checked");
     var vehicleOdometerOptional = $("#inputOdometerOptional").is(":checked");
+    var vehicleInspectionCostOptional = $("#inputInspectionCostOptional").is(":checked");
     var vehicleHasOdometerAdjustment = $("#inputHasOdometerAdjustment").is(':checked');
     var vehicleOdometerMultiplier = $("#inputOdometerMultiplier").val();
     var vehicleOdometerDifference = parseInt(globalParseFloat($("#inputOdometerDifference").val())).toString();
@@ -147,7 +148,7 @@ function saveVehicle(isEdit) {
             $(".modal.fade.show").find(`.extra-field [placeholder='${vehicleIdentifier}']`).removeClass("is-invalid");
         }
     }
-    
+
     if (vehicleHasOdometerAdjustment) {
         //validate odometer adjustments
         //validate multiplier
@@ -214,6 +215,7 @@ function saveVehicle(isEdit) {
         purchaseDate: vehiclePurchaseDate,
         soldDate: vehicleSoldDate,
         odometerOptional: vehicleOdometerOptional,
+        inspectionCostOptional: vehicleInspectionCostOptional,
         hasOdometerAdjustment: vehicleHasOdometerAdjustment,
         odometerMultiplier: vehicleOdometerMultiplier,
         odometerDifference: vehicleOdometerDifference,
@@ -316,7 +318,7 @@ function hermiteResize(origImg, width, height) {
     var ratio_w_half = Math.ceil(ratio_w / 2);
     var ratio_h_half = Math.ceil(ratio_h / 2);
 
-   
+
     var img = ctx.getImageData(0, 0, width_source, height_source);
     var img2 = ctx.createImageData(width, height);
     var data = img.data;
@@ -1252,7 +1254,7 @@ function duplicateRecordsToOtherVehicles(ids, source) {
                 },
             }).then(function (result) {
                 if (result.isConfirmed) {
-                    $.post('/Vehicle/DuplicateRecordsToOtherVehicles', { recordIds: ids, vehicleIds: result.value.selectedVehicleData.ids, importMode: source}, function (data) {
+                    $.post('/Vehicle/DuplicateRecordsToOtherVehicles', { recordIds: ids, vehicleIds: result.value.selectedVehicleData.ids, importMode: source }, function (data) {
                         if (data.success) {
                             successToast(`${ids.length} Record(s) Duplicated`);
                         } else {
@@ -1669,7 +1671,7 @@ function loadUserColumnPreferences(columns, order) {
     columns.map(x => {
         var defaultColumn = $(`[data-column-toggle='${x}'].col-visible-toggle`);
         if (defaultColumn.length > 0) {
-            defaultColumn.prop("checked", true); 
+            defaultColumn.prop("checked", true);
         }
         $(`[data-column='${x}']`).show();
     });
@@ -2203,6 +2205,22 @@ function createQR(param, val) {
     let currentParams = new URLSearchParams(window.location.search);
     currentParams.set(param, val);
     let urlToRender = `${window.location.origin}${window.location.pathname}?${currentParams.toString()}`;
+    let qr = qrcode(0, 'M');
+    qr.addData(urlToRender);
+    qr.make();
+    let svgData = qr.createSvgTag();
+    Swal.fire({
+        title: "QR Code",
+        html: `<div class='qr-container'>${svgData}</div>`,
+        confirmButtonText: 'Download',
+        showCancelButton: true
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            downloadQR();
+        }
+    });
+}
+function createQRForUrl(urlToRender) {
     let qr = qrcode(0, 'M');
     qr.addData(urlToRender);
     qr.make();

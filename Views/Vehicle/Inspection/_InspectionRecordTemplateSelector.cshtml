@@ -7,7 +7,7 @@
     var userLanguage = userConfig.UserLanguage;
 }
 <div class="modal-header">
-    <h5 class="modal-title">@(translator.Translate(userLanguage, "Select Inspection Record Template"))</h5>
+    <h5 class="modal-title">@(ViewBag.IsPublic ? translator.Translate(userLanguage, "Select Template for Public QR Code") : translator.Translate(userLanguage, "Select Inspection Record Template"))</h5>
     <button type="button" class="btn-close" onclick="hideInspectionRecordTemplateSelectorModal()" aria-label="Close"></button>
 </div>
 <div class="modal-body">
@@ -19,8 +19,11 @@
                     <thead class="sticky-top">
                         <tr class="d-flex">
                             <th scope="col" class="col-8">@translator.Translate(userLanguage, "Description")</th>
-                            <th scope="col" class="col-2">@translator.Translate(userLanguage, "Use")</th>
-                            <th scope="col" class="col-2">@translator.Translate(userLanguage, "Edit")</th>
+                            <th scope="col" class="col-@(ViewBag.IsPublic ? "4" : "2")">@(ViewBag.IsPublic ? translator.Translate(userLanguage, "Generate QR") : translator.Translate(userLanguage, "Use"))</th>
+                            @if (!ViewBag.IsPublic)
+                            {
+                                <th scope="col" class="col-2">@translator.Translate(userLanguage, "Edit")</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -38,8 +41,20 @@
                                         <i class="bi bi-tools ms-2"></i>
                                     }
                                 </td>
-                                <td class="col-2"><button type="button" class="btn btn-primary" onclick="useInspectionRecordTemplate(@inspectionRecordTemplate.Id)"><i class="bi bi-plus-square"></i></button></td>
-                                <td class="col-2"><button type="button" class="btn btn-warning" onclick="showEditInspectionRecordTemplateModal(@inspectionRecordTemplate.Id)"><i class="bi bi-pencil-square"></i></button></td>
+                                <td class="col-@(ViewBag.IsPublic ? "4 d-grid" : "2")">
+                                    @if (ViewBag.IsPublic)
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="generatePublicInspectionQRCode(@inspectionRecordTemplate.Id)"><i class="bi bi-qr-code me-2"></i>@translator.Translate(userLanguage, "QR Code")</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-primary" onclick="useInspectionRecordTemplate(@inspectionRecordTemplate.Id)"><i class="bi bi-plus-square"></i></button>
+                                    }
+                                </td>
+                                @if (!ViewBag.IsPublic)
+                                {
+                                    <td class="col-2"><button type="button" class="btn btn-warning" onclick="showEditInspectionRecordTemplateModal(@inspectionRecordTemplate.Id)"><i class="bi bi-pencil-square"></i></button></td>
+                                }
                             </tr>
                         }
                     </tbody>
