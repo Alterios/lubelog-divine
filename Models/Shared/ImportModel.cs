@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CarCareTracker.Models
 {
@@ -283,6 +283,8 @@ namespace CarCareTracker.Models
         public string OdometerOptional { get; set; } = string.Empty;
         [JsonConverter(typeof(FromBoolOptional))]
         public string InspectionCostOptional { get; set; } = string.Empty;
+        [JsonConverter(typeof(FromBoolOptional))]
+        public string IsOutOfService { get; set; } = string.Empty;
         public string Tags { get; set; } = string.Empty;
         public List<ExtraField> ExtraFields { get; set; } = new List<ExtraField>();
     }

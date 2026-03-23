@@ -2,15 +2,16 @@
 
 This is a customized fork of the original [LubeLogger](https://github.com/hargata/lubelog) project.
 
-### Why this Fork?
+## Why this Fork?
 
 This version was created to streamline vehicle maintenance for fleet operations, specifically focusing on enhanced accountability and specialized user configurations that align with organizational SSO/OAuth workflows.
 
-### Key Custom Features & Fixes
+## Key Custom Features & Fixes
 
 * **Authenticated Public Inspections**: Modified the public inspection form to require authentication (`[Authorize]`). This ensures that every submitted inspection is tied to a specific driver/user in the system.
 * **User Tracking**: Backend logic captures the authenticated user's ID and Name for all public form submissions, mapping them to event webhooks and personalized odometer tracking.
 * **Optional Inspection Costs**: Added logic to verify if inspection costs are optional at the vehicle level, allowing for cleaner record entry when costs aren't applicable.
+* **Out of Service Status**: Implemented a per-vehicle toggle to mark vehicles as "Out of Service," with prominent visual badges on the garage page and kiosk mode.
 * **Form Data Binding Fixes**: Resolved a bug where unchecked checkboxes/radio buttons in the public form would misalign with the underlying inspection template, ensuring "Yes/No" results are recorded accurately.
 * **Internal Documentation**: Integrated custom project documentation directly into the repository for easier maintenance.
 
@@ -58,7 +59,7 @@ Read this [Getting Started Guide](https://docs.lubelogger.com/Installation/Getti
 
 ## Dependencies
 
-- [Bootstrap](https://github.com/twbs/bootstrap)
+* [Bootstrap](https://github.com/twbs/bootstrap)
 * [LiteDB](https://github.com/mbdavid/litedb)
 * [Npgsql](https://github.com/npgsql/npgsql)
 * [Bootstrap-DatePicker](https://github.com/uxsolutions/bootstrap-datepicker)
