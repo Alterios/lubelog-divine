@@ -1,4 +1,4 @@
-﻿$.expr.pseudos.containsNC = $.expr.createPseudo(function (arg) {
+$.expr.pseudos.containsNC = $.expr.createPseudo(function (arg) {
     return function (elem) {
         return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
     };
@@ -96,6 +96,7 @@ function saveVehicle(isEdit) {
     var vehicleUseHours = $("#inputUseHours").is(":checked");
     var vehicleOdometerOptional = $("#inputOdometerOptional").is(":checked");
     var vehicleInspectionCostOptional = $("#inputInspectionCostOptional").is(":checked");
+    var vehicleIsOutOfService = $("#inputIsOutOfService").is(":checked");
     var vehicleHasOdometerAdjustment = $("#inputHasOdometerAdjustment").is(':checked');
     var vehicleOdometerMultiplier = $("#inputOdometerMultiplier").val();
     var vehicleOdometerDifference = parseInt(globalParseFloat($("#inputOdometerDifference").val())).toString();
@@ -216,6 +217,7 @@ function saveVehicle(isEdit) {
         soldDate: vehicleSoldDate,
         odometerOptional: vehicleOdometerOptional,
         inspectionCostOptional: vehicleInspectionCostOptional,
+        isOutOfService: vehicleIsOutOfService,
         hasOdometerAdjustment: vehicleHasOdometerAdjustment,
         odometerMultiplier: vehicleOdometerMultiplier,
         odometerDifference: vehicleOdometerDifference,

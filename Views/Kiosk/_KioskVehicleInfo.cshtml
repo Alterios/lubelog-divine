@@ -1,10 +1,19 @@
-﻿@using CarCareTracker.Helper
+@using CarCareTracker.Helper
 @model KioskVehicleViewModel
 @inject IConfigHelper config
 @inject ITranslationHelper translator
 @{
     var userConfig = config.GetUserConfig(User);
     var userLanguage = userConfig.UserLanguage;
+}
+@if (Model.IsOutOfService)
+{
+    <div class="col-12 p-2">
+        <div class="alert alert-danger d-flex align-items-center mb-0">
+            <i class="bi bi-exclamation-octagon-fill me-2"></i>
+            <span>@translator.Translate(userLanguage, "Out of Service")</span>
+        </div>
+    </div>
 }
 @if (Model.ServiceRecordCount > 0)
 {

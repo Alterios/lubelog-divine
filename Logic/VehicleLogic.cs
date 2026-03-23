@@ -1,4 +1,4 @@
-﻿using CarCareTracker.External.Interfaces;
+using CarCareTracker.External.Interfaces;
 using CarCareTracker.Helper;
 using CarCareTracker.Models;
 
@@ -511,6 +511,7 @@ namespace CarCareTracker.Logic
             var serviceRecords = _serviceRecordDataAccess.GetServiceRecordsByVehicleId(vehicleId);
             var repairRecords = _collisionRecordDataAccess.GetCollisionRecordsByVehicleId(vehicleId);
             var upgradeRecords = _upgradeRecordDataAccess.GetUpgradeRecordsByVehicleId(vehicleId);
+            var vehicleData = _dataAccess.GetVehicleById(vehicleId);
             var viewModel = new KioskVehicleViewModel()
             {
                 ServiceRecordCost = serviceRecords.Sum(x => x.Cost),
@@ -518,7 +519,8 @@ namespace CarCareTracker.Logic
                 RepairRecordCost = repairRecords.Sum(x => x.Cost),
                 RepairRecordCount = repairRecords.Count(),
                 UpgradeRecordCost = upgradeRecords.Sum(x => x.Cost),
-                UpgradeRecordCount = upgradeRecords.Count()
+                UpgradeRecordCount = upgradeRecords.Count(),
+                IsOutOfService = vehicleData.IsOutOfService
             };
             if (serviceRecords.Any())
             {

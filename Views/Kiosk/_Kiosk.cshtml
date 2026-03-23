@@ -1,4 +1,4 @@
-﻿@using CarCareTracker.Helper
+@using CarCareTracker.Helper
 @model List<VehicleInfo>
 @inject IConfigHelper config
 @inject ITranslationHelper translator
@@ -56,7 +56,13 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-column">
                             <span class="lead">@($"{vehicle.VehicleData.Year} {vehicle.VehicleData.Make} {vehicle.VehicleData.Model}")</span>
-                            <small>@($"{StaticHelper.GetVehicleIdentifier(vehicle.VehicleData)}")</small>
+                            <div class="d-flex align-items-center gap-2">
+                                <small>@($"{StaticHelper.GetVehicleIdentifier(vehicle.VehicleData)}")</small>
+                                @if (vehicle.VehicleData.IsOutOfService)
+                                {
+                                    <span class="badge bg-danger rounded-pill"><i class="bi bi-exclamation-octagon me-1"></i>@translator.Translate(userLanguage, "Out of Service")</span>
+                                }
+                            </div>
                         </div>
                         <div>
                             <button type="button" class="btn btn-link showOnExpand" onclick="showAllKioskVehicle(event)"><i class="bi bi-x-lg"></i></button>

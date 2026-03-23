@@ -89,6 +89,7 @@ namespace CarCareTracker.Controllers
                     UseHours = x.UseHours,
                     OdometerOptional = x.OdometerOptional,
                     InspectionCostOptional = x.InspectionCostOptional,
+                    IsOutOfService = x.IsOutOfService,
                     ExtraFields = x.ExtraFields,
                     Tags = x.Tags,
                     DashboardMetrics = x.DashboardMetrics,

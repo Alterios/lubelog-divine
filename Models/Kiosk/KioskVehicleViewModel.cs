@@ -1,4 +1,4 @@
-﻿namespace CarCareTracker.Models
+namespace CarCareTracker.Models
 {
     public class KioskVehicleViewModel
     {
@@ -32,5 +32,6 @@
         public decimal MostExpensiveUpgradeRecordCost { get; set; }
         public DateTime MostExpensiveUpgradeRecordDate { get; set; }
         public int MostExpensiveUpgradeRecordOdometer { get; set; }
+        public bool IsOutOfService { get; set; } = false;
     }
 }
