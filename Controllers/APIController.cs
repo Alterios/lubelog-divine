@@ -197,6 +197,41 @@ namespace CarCareTracker.Controllers
         }
 
         [HttpGet]
+        [Route("/api/vehicle/out-of-service")]
+        public IActionResult GetVehicleOutOfServiceStatus(int vehicleId)
+        {
+            if (_userLogic.UserCanEditVehicle(GetUserID(), vehicleId, HouseholdPermission.View))
+            {
+                var vehicle = _dataAccess.GetVehicleById(vehicleId);
+                if (vehicle != null)
+                {
+                    return Json(new { isOutOfService = vehicle.IsOutOfService });
+                }
+                return Json(OperationResponse.Failed("Vehicle not found"));
+            }
+            return Json(OperationResponse.Failed("Access Denied"));
+        }
+
+        [HttpPost]
+        [Route("/api/vehicle/out-of-service")]
+        public IActionResult SetVehicleOutOfServiceStatus(int vehicleId, bool isOutOfService)
+        {
+            if (_userLogic.UserCanEditVehicle(GetUserID(), vehicleId, HouseholdPermission.Edit))
+            {
+                var vehicle = _dataAccess.GetVehicleById(vehicleId);
+                if (vehicle != null)
+                {
+                    vehicle.IsOutOfService = isOutOfService;
+                    _dataAccess.SaveVehicle(vehicle);
+                    _eventLogic.PublishEvent(GetUserID(), WebHookPayload.Generic($"Updated Out of Service status for {vehicle.Year} {vehicle.Make} {vehicle.Model} to {isOutOfService} via API", "vehicle.update.api", User.Identity?.Name ?? string.Empty, vehicle.Id.ToString()));
+                    return Json(OperationResponse.Succeed("Vehicle Status Updated"));
+                }
+                return Json(OperationResponse.Failed("Vehicle not found"));
+            }
+            return Json(OperationResponse.Failed("Access Denied"));
+        }
+
+        [HttpGet]
         [Route("/api/vehicle/info")]
         public IActionResult VehicleInfo(int vehicleId)
         {
